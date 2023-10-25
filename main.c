@@ -1,50 +1,30 @@
+#include "compress_and_encrypt.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-
-/* Author: Anthony Hayek */
-void compressAndEncryptFile(char *inputFile, char *outputFile,
-                            char *compressionMethod, char *encryptionMethod,
-                            int encryptionStrength);
 
 /* Author: Harry L'Orange */
 void decompressAndDecryptFile(char *inputFile, char *outputFile,
-                              char *compressionMethod, char *encryptionMethod,
                               int encryptionStrength);
 
 /* Author: Paul McNamara */
 void batchProcessFiles(char *inputDirectory, char *outputDirectory,
-                       char *compressionMethod, char *encryptionMethod,
                        int encryptionStrength);
 
 /* Author: Torian Pillay */
 int main() {
   /* Your program logic here */
 
+  char inputFile[] = "input.txt";
+  char outputFile[] = "output.txt";
+  char secret[] = "secret";
+
+  compressAndEncryptFile(inputFile, outputFile, secret);
   return 0;
 }
 
-void compressAndEncryptFile(char *inputFile, char *outputFile,
-                            char *compressionMethod, char *encryptionMethod,
-                            int encryptionStrength) {
-  /*
-  Compresses and encrypts a file using specified methods.
-
-  :param inputFile: Path to the input file to be processed.
-  :param outputFile: Path to the output file where the result will be saved.
-  :param compressionMethod: Selected compression method (e.g., GZIP, BZIP2).
-  :param encryptionMethod: Selected encryption method (e.g., AES) for securing
-  the file. :param encryptionStrength: Strength or key length for encryption.
-
-  Author: author
-  */
-
-  /* Function logic */
-}
-
 void decompressAndDecryptFile(char *inputFile, char *outputFile,
-                              char *compressionMethod, char *encryptionMethod,
                               int encryptionStrength) {
   /*
   Decompresses and decrypts a file using specified methods.
@@ -62,7 +42,6 @@ void decompressAndDecryptFile(char *inputFile, char *outputFile,
 }
 
 void batchProcessFiles(char *inputDirectory, char *outputDirectory,
-                       char *compressionMethod, char *encryptionMethod,
                        int encryptionStrength) {
   /*
   Batch processes multiple files within a directory using specified methods.

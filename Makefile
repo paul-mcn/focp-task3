@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = gcc -Wall -Werror -ansi -o employeelist.o employeelist.c -lm
-SRC = man.c
-OUT = man
+CFLAGS =-Wall -Werror -ansi -lm
+SRC = main.c compress_and_encrypt.c xor_cipher.c
+OUT = main.o
 
 all: compile run
 
