@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS =-Wall -Werror -ansi -lm
-SRC = main.c compress_and_encrypt.c xor_cipher.c
+SRC = main.c compress_and_encrypt.c xor_cipher.c huffman_coding.c
 OUT = main.o
 
 all: compile run
