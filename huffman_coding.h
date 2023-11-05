@@ -1,42 +1,44 @@
 
-#define MAX_TREE_HT 50
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-struct MinHNode;
+#define MAX_TREE_HT 256
+
+struct MinHeapNode;
+
 struct MinHeap;
 
-/** Create nodes */
-struct MinHNode *newNode(char item, unsigned freq);
+struct MinHeapNode *newNode(char data, unsigned freq);
 
-/** Create min heap */
-struct MinHeap *createMinH(unsigned capacity);
+struct MinHeap *createMinHeap(unsigned capacity);
 
-/** Function to swap */
-void swapMinHNode(struct MinHNode **a, struct MinHNode **b);
+void swapMinHeapNode(struct MinHeapNode **a, struct MinHeapNode **b);
 
-/** Heapify */
 void minHeapify(struct MinHeap *minHeap, int idx);
 
-/** Check if size if 1 */
-int checkSizeOne(struct MinHeap *minHeap);
+int isSizeOne(struct MinHeap *minHeap);
 
-/** Extract min */
-struct MinHNode *extractMin(struct MinHeap *minHeap);
+struct MinHeapNode *extractMin(struct MinHeap *minHeap);
 
-/** Insertion function */
-void insertMinHeap(struct MinHeap *minHeap, struct MinHNode *minHeapNode);
+void insertMinHeap(struct MinHeap *minHeap, struct MinHeapNode *minHeapNode);
 
 void buildMinHeap(struct MinHeap *minHeap);
 
-int isLeaf(struct MinHNode *root);
+int isLeaf(struct MinHeapNode *root);
 
-struct MinHeap *createAndBuildMinHeap(char item[], int freq[], int size);
+struct MinHeap *createAndBuildMinHeap(char data[], int freq[], int size);
 
-struct MinHNode *buildHuffmanTree(char item[], int freq[], int size);
+struct MinHeapNode *buildHuffmanTree(char data[], int freq[], int size);
 
-void printHCodes(struct MinHNode *root, int arr[], int top);
+/** Stores the Huffman codes in an array of strings */
+void storeCodes(struct MinHeapNode *root, int arr[], int top,
+                char **huffmanCode);
 
-/** Wrapper function */
-void HuffmanCodes(char item[], int freq[], int size);
+void HuffmanCodes(char data[], int freq[], int size, char **huffmanCode);
 
-/** Print the array */
-void printArray(int arr[], int n);
+/** Utility function to calculate frequencies and call HuffmanCodes */
+void encode(char *str, int freq[], int n, char data[], char **huffmanCode);
+
+/** Decodes the encoded string using the Huffman tree */
+char *decode(struct MinHeapNode *root, char *str);

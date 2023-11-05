@@ -5,81 +5,42 @@
 #include <stdlib.h>
 #include <string.h>
 
-void compressAndEncryptFile(char *inputFile, char *outputFile, char *secret) {
-  /*
-  Compresses and encrypts a file using specified methods.
+void compressAndEncryptFile(char *s, char *secret) {
+  /* const char *str = "Hello world"; */
+  char str[] = "Hello world";
+  char *huffmanCode[MAX_TREE_HT] = {0};
 
-  :param inputFile: Path to the input file to be processed.
-  :param outputFile: Path to the output file where the result will be saved.
-  :param compressionMethod: Selected compression method (e.g., GZIP, BZIP2).
-  :param encryptionMethod: Selected encryption method (e.g., AES) for securing
+  int freq[MAX_TREE_HT] = {0};
+  int n = 0;
+  char data[MAX_TREE_HT];
 
-  Author: Paul
-  */
+  /** Encoding */
+  encode(str, freq, n, data, huffmanCode);
 
-  /* Open the input file for reading */
-  FILE *input_fp = fopen(inputFile, "rb");
-  if (!input_fp) {
-    fprintf(stderr, "Error opening input file.\n");
-    return;
+  /** Concatenate the codes */
+  char *encodedStr = (char *)malloc(sizeof(char) * 1024);
+  encodedStr[0] = '\0';
+  int i;
+  for (i = 0; str[i]; i++) {
+    strcat(encodedStr, huffmanCode[(unsigned char)str[i]]);
   }
 
-  /* Open the output file for writing */
-  FILE *output_fp = fopen(outputFile, "wb");
-  if (!output_fp) {
-    fclose(input_fp);
-    fprintf(stderr, "Error opening output file.\n");
-    return;
+  printf("Encoded string: %s\n", encodedStr);
+
+  /** Decoding */
+  /** Assuming the Huffman tree is still in memory and the root is accessible */
+  int size = sizeof(data) / sizeof(data[0]);
+  struct MinHeapNode *root = buildHuffmanTree(data, freq, size);
+  /** Reuse the function to get the root */
+  char *decodedStr = decode(root, encodedStr);
+  printf("Decoded string: %s\n", decodedStr);
+
+  /** Clean up */
+  for (i = 0; i < MAX_TREE_HT; i++) {
+    if (huffmanCode[i]) {
+      free(huffmanCode[i]);
+    }
   }
-
-  /** Get the file size by seeking to the end of the file */
-  fseek(input_fp, 0, SEEK_END);
-  long file_size = ftell(input_fp);
-  rewind(input_fp);
-
-  /** Allocate memory for the file content */
-  char *file_contents =
-      (char *)malloc(file_size + 1); /** +1 for null-terminator */
-
-  if (file_contents == NULL) {
-    perror("Error allocating memory");
-    fclose(input_fp);
-    return;
-  }
-
-  /** Read the file content into the allocated memory */
-  size_t bytes_read = fread(file_contents, 1, file_size, input_fp);
-  file_contents[bytes_read] = '\0'; /** Null-terminate the string */
-
-  /* Write Huffman Coding compression algorithm first  */
-
-  printf("Compressing with huffman...\n");
-  /* char arr[] = {'A', 'B', 'C', 'D'}; */
-  char arr[] = {'h', 'e', 'l', 'o', ' ', 'w', 'r', 'd'};
-  int freq[] = {1, 1, 3, 2, 1, 1, 1, 1};
-  int size = sizeof(arr) / sizeof(arr[0]);
-  /* int freq[256] = {0}; */
-  /* int i; */
-  /* for (i = 0; i < bytes_read; i++) { */
-  /*   char c = file_contents[i]; */
-  /*   printf("%d %c ", c, c); */
-  /*   freq[(int)c]++; */
-  /* } */
-  /* printf("Freq[]="); */
-  /* for (i = 0; i < 256; i++) { */
-  /*   printf("%d ", freq[i]); */
-  /* } */
-  /* printf("before_encryption: %s\n", file_contents); */
-  /* HuffmanCodes(file_contents, freq, bytes_read); */
-  HuffmanCodes(arr, freq, size);
-
-  /* printf("after_encryption: %s\n", file_contents); */
-
-  /* Write XOR Cipher encryption algorithm last */
-  xorCipher(file_contents, secret, bytes_read);
-  fwrite(file_contents, 1, bytes_read, output_fp);
-
-  /* Close files */
-  fclose(input_fp);
-  fclose(output_fp);
+  free(encodedStr);
+  free(decodedStr);
 }

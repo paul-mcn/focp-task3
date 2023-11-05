@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS =-Wall -Werror -ansi -lm
-SRC = main.c compress_and_encrypt.c xor_cipher.c huffman_coding.c
+SRC = main.c compress_and_encrypt.c xor_cipher.c huffman_coding.c interface.c database.c
 OUT = main.o
 
 all: compile run
@@ -13,3 +13,4 @@ run: $(OUT)
 
 clean:
 	rm -f $(OUT)
+
